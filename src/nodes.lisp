@@ -197,8 +197,15 @@ so an initform of NIL can be distinguished from not having an initform at all."
           :documentation "A list of slots."))
   (:documentation "A class."))
 
-(defclass condition-node (class-node)
-  ()
+(defclass condition-node (record-node)
+  ((superclasses :reader class-node-superclasses
+                 :initarg :superclasses
+                 :type (proper-list symbol)
+                 :documentation "A list of the class's superclasses (symbols).")
+   (slots :reader record-slots
+          :initarg :slots
+          :type (proper-list class-slot-node)
+          :documentation "A list of slots."))
   (:documentation "A condition."))
 
 (defclass type-node (operator-node)

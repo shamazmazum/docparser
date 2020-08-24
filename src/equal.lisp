@@ -82,6 +82,11 @@
        (every #'node= (record-slots a) (record-slots b))
        (call-next-method)))
 
+(define-equality (a b condition-node)
+  (and (equal (class-node-superclasses a) (class-node-superclasses b))
+       (every #'node= (record-slots a) (record-slots b))
+       (call-next-method)))
+
 (define-equality (a b cffi-function)
   (and (equal (cffi-function-return-type a) (cffi-function-return-type b))
        (call-next-method)))
