@@ -9,6 +9,7 @@
   :depends-on (:trivial-types
                :alexandria
                :anaphora
+               :serapeum
                :cffi)
   :components ((:module "src"
                 :serial t

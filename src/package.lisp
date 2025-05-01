@@ -22,7 +22,9 @@
            :struct-node
            :class-node
            :condition-node
-           :type-node)
+           :type-node
+           :defconstructor-node
+           :defconstructor-slot-node)
   ;; CFFI classes
   (:export :cffi-node
            :cffi-function

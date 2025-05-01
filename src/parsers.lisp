@@ -360,3 +360,32 @@ Correctly handles bodies where the first form is a declaration."
                             (if (listp mask)
                                 (first mask)
                                 mask)))))
+
+(defun parse-defconstructor-slot (slot struct-name package)
+  (destructuring-bind (name type) slot
+    (let ((reader
+           (intern
+            (concatenate 'string
+                         (symbol-name struct-name)
+                         "-"
+                         (symbol-name name))
+            package)))
+    (make-instance 'defconstructor-slot-node
+                   :form   slot
+                   :name   name
+                   :type   type
+                   :reader reader))))
+
+(define-parser serapeum:defconstructor (name &rest doc-and-slots)
+  (let ((docstring (if (stringp (first doc-and-slots))
+                       (first doc-and-slots)))
+        (slots (if (stringp (first doc-and-slots))
+                   (rest doc-and-slots)
+                   doc-and-slots)))
+    (make-instance 'defconstructor-node
+                   :name name
+                   :docstring docstring
+                   :slots (loop for slot in slots collect
+                                (parse-defconstructor-slot
+                                 slot name (symbol-package name)))
+                   :constructor name)))

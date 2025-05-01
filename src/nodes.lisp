@@ -56,6 +56,30 @@
                            :initarg :initial-value))
   (:documentation "A variable."))
 
+(defclass defconstructor-slot-node (name-node)
+  ((type :reader defconstructor-slot-type
+         :initarg :type
+         :initform t
+         :documentation "The slot's type.")
+   (reader :reader defconstructor-slot-reader
+           :initarg :reader
+           :initform nil
+           :type symbol
+           :documentation "The slot's reader."))
+  (:documentation "A structure's slot (DEFCONSTRUCTOR-style)."))
+
+(defclass defconstructor-node (record-node)
+  ((slots :reader record-slots
+          :initarg :slots
+          :type (proper-list defconstructor-slot-node)
+          :documentation "A list of slots.")
+   (constructor :reader defconstructor-node-constructor
+                :initarg :constructor
+                :type symbol
+                :documentation
+                "The constructor name, a symbol"))
+  (:documentation "A structure (DEFCONSTRUCTOR-style)."))
+
 (defclass struct-slot-node (name-node)
   ((initform :initarg :initform
              :documentation "The slot's initform.")
