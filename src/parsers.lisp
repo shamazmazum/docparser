@@ -87,12 +87,13 @@ Correctly handles bodies where the first form is a declaration."
 
 (define-parser cl:deftype (name lambda-list &rest body)
   (let ((docstring (if (stringp (first body))
-                       (first body)
-                       nil)))
+                       (first body)))
+        (body      (if (stringp (first body))
+                       (rest body) body)))
     (make-instance 'type-node
                    :name name
                    :docstring docstring
-                   :lambda-list lambda-list)))
+                   :lambda-list (cons lambda-list body))))
 
 (defun parse-slot (slot)
   (if (listp slot)
